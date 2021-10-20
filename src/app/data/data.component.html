@@ -1,21 +1,45 @@
-<div class="container-data" >
-  <h1> All data</h1>
-
-  <table>
-    <thead>
-    <tr>
-      <th>Id</th>
-      <th>Entry Date</th>
-      <th>Entry Price</th>
-      <th>Exit Date</th>
-      <th>Exit Price</th>
-      <th>Profit</th>
-      <th>Edit Trade</th>
-    </tr>
-    </thead>
-    <tbody>
-
-    </tbody>
-  </table>
-  <button mat-button (click)="open()"> Add new data</button>
+<div fxLayout="column"  fxLayoutAlign="space-around center"  class="balance-container">
+  <button mat-raised-button color="accent" (click)="openAddModal()">New data</button>
+  <h2> Your result:{{saveDateService.balance$ | async}}</h2>
 </div>
+
+
+<table>
+  <thead>
+  <tr>
+    <th>Id</th>
+    <th>Entry Date</th>
+    <th>Entry Price</th>
+    <th>Exit Date</th>
+    <th>Exit Price</th>
+    <th>Profit</th>
+    <th>Edit Trade</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let data of saveDateService.savedDateSet$| async">
+    <td  *ngIf="data?.id">
+      {{data.id}}
+    </td>
+    <td  *ngIf="data?.entryDate">
+      {{data.entryDate }}
+    </td>
+    <td  *ngIf="data?.entryPrice">
+      {{data.entryPrice}}
+    </td>
+    <td  *ngIf="data?.exitDate">
+      {{data.exitDate }}
+    </td>
+    <td  *ngIf="data?.exitPrice">
+      {{data.exitPrice}}
+    </td>
+    <td *ngIf="data?.profit || data?.profit === 0 ">
+      {{data.profit }}
+    </td>
+    <td  *ngIf="data">
+      <button mat-raised-button color="accent" (click)="openEditModal(data)">Edit</button>
+    </td>
+  </tr>
+  </tbody>
+</table>
+

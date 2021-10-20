@@ -1,12 +1,12 @@
 
 <div mat-dialog-title>
-  <h2 >Add new date</h2>
+  <h2 >Add new data</h2>
 </div>
 
 <div mat-dialog-content class="dialog__content">
-  <form [formGroup]="dataForm" (ngSubmit)="add()" fxLayout="column" fxFlexAlign="center center"
-       >
+  <form [formGroup]="dataForm" (ngSubmit)="add()" fxLayout="column" fxFlexAlign="center center">
 
+    <div fxLayout="row" fxLayoutAlign="space-between">
     <mat-form-field appearance="outline">
       <mat-label >Entry Date</mat-label>
       <input matInput type="date" [formControl]="entryDate">
@@ -18,6 +18,8 @@
       <input matInput type="number" [formControl]="entryPrice">
       <mat-error *ngIf="entryPrice.invalid">{{getErrorMessages(entryPrice)}}</mat-error>
     </mat-form-field>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="space-between">
     <mat-form-field appearance="outline">
       <mat-label> Exit date</mat-label>
       <input type="date" matInput [formControl]="exitDate">
@@ -28,12 +30,13 @@
       <input type="number" matInput [formControl]="exitPrice">
       <mat-error *ngIf="exitPrice.invalid">{{getErrorMessages(exitPrice)}}</mat-error>
     </mat-form-field>
+    </div>
     <div class="dialog__button-group" fxLayout="row" fxLayoutAlign="space-around center" >
 
       <button mat-flat-button mat-dialog-close type="button">Cancel</button>
       <button mat-flat-button color="accent" type="submit"
-              [disabled]="dataForm.invalid">Add</button>
-      <mat-error *ngIf="dataForm.invalid">{{getErrorMessages(dataForm)}}</mat-error>
+              [disabled]="dataForm.invalid">{{nameButton}}</button>
+      <mat-error *ngIf="dataForm.invalid && entryDate.touched && exitDate.touched">{{getErrorMessages(dataForm)}}</mat-error>
     </div>
   </form>
 </div>

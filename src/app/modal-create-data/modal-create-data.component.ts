@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import {Component, Inject, OnInit} from '@angular/core';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {FullData, SaveDataService} from '../save-data.service';
 
 export interface Data{
   entryDate: Data;
@@ -16,7 +17,7 @@ export interface Data{
 })
 export class ModalCreateDataComponent implements OnInit {
 
-
+  nameButton =  'Add';
   dataForm: FormGroup;
   entryDate = new FormControl('', Validators.required);
   exitDate = new FormControl('', Validators.required);
@@ -25,7 +26,10 @@ export class ModalCreateDataComponent implements OnInit {
 
   constructor(
     private dialog: MatDialogRef<ModalCreateDataComponent>,
-    private formBuilder: FormBuilder) {
+    private formBuilder: FormBuilder,
+    private saveDataService: SaveDataService,
+    @Inject(MAT_DIALOG_DATA) public data: FullData,
+  ) {
     this.dataForm = this.formBuilder.group({
         entryDate: this.entryDate,
         exitDate: this.exitDate,
@@ -35,17 +39,30 @@ export class ModalCreateDataComponent implements OnInit {
         validators: this.getValidation('entryDate', 'exitDate')
       }
     );
-
+    if (this.data){
+      this.dataForm.patchValue(this.data);
+      this.nameButton = 'Edit';
+    }
   }
 
   ngOnInit(): void {
+
   }
 
   add(): void {
    const data: Data = this.dataForm.value;
+   if (this.nameButton === 'Add'){
+   this.saveDataService.addTrade(data);
+   }
+   if (this.nameButton === 'Edit'){
+     const editData: FullData = {
+     ...data,
+     id: this.data.id,
+     profit: this.data.profit,
+     };
 
-   console.log(data);
-
+     this.saveDataService.editData(editData);
+   }
    this.dialog.close();
 
   }
