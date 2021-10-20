@@ -1,0 +1,39 @@
+
+<div mat-dialog-title>
+  <h2 >Add new date</h2>
+</div>
+
+<div mat-dialog-content class="dialog__content">
+  <form [formGroup]="dataForm" (ngSubmit)="add()" fxLayout="column" fxFlexAlign="center center"
+       >
+
+    <mat-form-field appearance="outline">
+      <mat-label >Entry Date</mat-label>
+      <input matInput type="date" [formControl]="entryDate">
+      <mat-error *ngIf="entryDate.invalid">{{getErrorMessages(entryDate)}}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Entry price</mat-label>
+      <input matInput type="number" [formControl]="entryPrice">
+      <mat-error *ngIf="entryPrice.invalid">{{getErrorMessages(entryPrice)}}</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label> Exit date</mat-label>
+      <input type="date" matInput [formControl]="exitDate">
+      <mat-error *ngIf="exitDate.invalid">{{getErrorMessages(exitDate)}}</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Exip Price</mat-label>
+      <input type="number" matInput [formControl]="exitPrice">
+      <mat-error *ngIf="exitPrice.invalid">{{getErrorMessages(exitPrice)}}</mat-error>
+    </mat-form-field>
+    <div class="dialog__button-group" fxLayout="row" fxLayoutAlign="space-around center" >
+
+      <button mat-flat-button mat-dialog-close type="button">Cancel</button>
+      <button mat-flat-button color="accent" type="submit"
+              [disabled]="dataForm.invalid">Add</button>
+      <mat-error *ngIf="dataForm.invalid">{{getErrorMessages(dataForm)}}</mat-error>
+    </div>
+  </form>
+</div>
